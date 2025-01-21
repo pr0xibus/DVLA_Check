@@ -5,12 +5,11 @@ I decided to write a small Application, that would allow someone to enter a UK R
 Users can download and run the application, Please check the Requirements below
 
 Requirements
-API Key from DVLA  https://developer-portal.driver-vehicle-licensing.api.gov.uk/apis/vehicle-enquiry-service/vehicle-enquiry-service-description.html
-Python Modules  Json, Requests
+You will require an API Key from DVLA  https://developer-portal.driver-vehicle-licensing.api.gov.uk/apis/vehicle-enquiry-service/vehicle-enquiry-service-description.html
+Python modules in use are requests and json
 
-1 - You will need to uncomment and replace the 'x-api-key' with either your TEST or LIVE API Key.
-2 - You will also need to uncomment one of the URLS depending if your using Live or Test
-3 - Please enter the Variable used for the URL  on 
-3.1 - response = requests.post('YOUR URL FROM ABOVE', headers=headers, data=json.dumps(data))
+Make sure to enter your API keys on lines 7/8.
+Also make sure you change which key to use on line 63.
+If you want to use the LIVE data then you will need to enter your VRNs on line 68 under the data section, it should look like as an example
 
-
+'registrationNumber':'AA60BRL'
