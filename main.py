@@ -1,32 +1,46 @@
+import random
+
 import requests
 import json
 
+
+test_API_key= 'YOUR TEST API KEY HERE'
+live_API_key= 'YOUR LIVE API KEY HERE'
+
+test_url = 'https://uat.driver-vehicle-licensing.api.gov.uk/vehicle-enquiry/v1/vehicles'
+live_url = 'https://driver-vehicle-licensing.api.gov.uk/vehicle-enquiry/v1/vehicles'
 
 error_dictionary={400:'Invalid Format',
                   403:'Forbidden',
                   404:'Not Found',
                   429:'Too Many Requests',
+                  500:'Internal Error',
                   502:'Bad Gateway',
+                  503:'Service Unavailable',
                   504:'Gateway Timeout'}
 
 
-class CarClass:
-    def __init__(self, registrationNumber, co2Emissions, engineCapacity, euroStatus, fuelType, motStatus, colour,
-                 make, yearOfManufacture, taxStatus, dateOfLastV5CIssued, wheelplan, realDrivingEmissions):
+test_vrn_list=['AA19AAA','AA19EEE','AA19PPP','L2WPS','AA19SRN','AA19MOT',
+          'AA19AMP','ER19BAD','ER19NFD','ER19THR','ER19ERR','ER19MNT']
 
-        self.registrationNumber = registrationNumber
-        self.co2Emissions = co2Emissions
-        self.engineCapacity = engineCapacity
-        self.euroStatus = euroStatus
-        self.fuelType = fuelType
-        self.motStatus = motStatus
-        self.colour = colour
-        self.make = make
-        self.yearOfManufacture = yearOfManufacture
-        self.taxStatus = taxStatus
-        self.dateOfLastV5CIssued = dateOfLastV5CIssued
-        self.wheelplan = wheelplan
-        self.realDrivingEmissions = realDrivingEmissions
+
+class CarClass:
+    def __init__(self, registration_number, co2_emissions, engine_capacity, euro_status, fuel_type, mot_status, car_colour,
+                 car_make, year_of_manufacture, tax_status, date_of_last_v5c_issued, wheel_plan):
+
+        self.registrationNumber = registration_number
+        self.co2Emissions = co2_emissions
+        self.engineCapacity = engine_capacity
+        self.euroStatus = euro_status
+        self.fuelType = fuel_type
+        self.motStatus = mot_status
+        self.colour = car_colour
+        self.make = car_make
+        self.yearOfManufacture = year_of_manufacture
+        self.taxStatus = tax_status
+        self.dateOfLastV5CIssued = date_of_last_v5c_issued
+        self.wheelplan = wheel_plan
+
 
     def display_details(self):
         print("Registration Number: " + self.registrationNumber)
@@ -41,23 +55,20 @@ class CarClass:
         print("Tax: " + self.taxStatus)
         print("V5 Issue: " + self.dateOfLastV5CIssued)
         print("Wheel Plan: " + self.wheelplan)
-        print("Emissions: " + self.realDrivingEmissions)
 
-#test_url = 'https://uat.driver-vehicle-licensing.api.gov.uk/vehicle-enquiry/v1/vehicles'
-#live_url = 'https://driver-vehicle-licensing.api.gov.uk/vehicle-enquiry/v1/vehicles'
+
+test_vrn = random.choice(test_vrn_list)
 
 headers = {
-    #'x-api-key': 'YOUR API KEY',  # TEST API
-    #'x-api-key': 'YOUR API KEY',  # LIVE API
+    'x-api-key': test_API_key,
     'Content-Type': 'application/json'
 }
 
 data = {
-
-    'registrationNumber':'AA19DSL'
+    'registrationNumber':test_vrn
 }
 
-response = requests.post('YOUR URL FROM ABOVE', headers=headers, data=json.dumps(data))
+response = requests.post(test_url, headers=headers, data=json.dumps(data))
 
 if response.status_code == 200:
     response_json = response.json()
@@ -73,8 +84,8 @@ if response.status_code == 200:
         response_json.get('yearOfManufacture', 0),
         response_json.get('taxStatus', 'Unknown'),
         response_json.get('dateOfLastV5CIssued', 'Unknown'),
-        response_json.get('wheelplan', 'Unknown'),
-        response_json.get('realDrivingEmissions', 'Unknown'))
+        response_json.get('wheelplan', 'Unknown'))
+
 
     CarClass.display_details(car_object)
 
